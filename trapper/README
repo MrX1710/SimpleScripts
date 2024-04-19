@@ -1,5 +1,5 @@
 #This is just a bash script test
-#To use it against someone you can encrypt the script using shc (shc -f file.sh ) and create
+#To use it against someone's device you can encrypt the script using shc (shc -f file.sh ) and create
 #an executable (you can name it whatever you want) that hides all the code making the script unreadable thus
 #impossible to know what does the code do, some will obviously run it depend on different factors
 #if you send it to them (name of the executable, the source it came from...etc)
