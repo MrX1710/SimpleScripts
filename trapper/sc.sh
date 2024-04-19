@@ -27,7 +27,7 @@ do
 			##shutdown --poweroff now
 		elif (( $opt == 1 ));
 		then
-			read -p "Enter your username to view userame's info: " usrnm
+			read -p "Enter your username to view username's info: " usrnm
 			if [ -z $usrnm ];
 			then
 				echo -e "\e[1;31mInvalid Input!\e[0m"
