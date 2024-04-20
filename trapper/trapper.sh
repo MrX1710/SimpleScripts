@@ -14,11 +14,12 @@ cat << EOF
        1) User information
        2) System info
        3) See files permissions
+       4) See system last reboot
 EOF
 read -p "choose an option: " opt
 while [ true ] 
 do
-	if [[ $opt =~ ^[0-3]$ ]];
+	if [[ $opt =~ ^[0-4]$ ]];
 	then
 		if (( $opt == 0 ));
 		then
@@ -52,6 +53,14 @@ do
 			echo -e "\a\e[1;31mTrapped :)\e[0m"
 			##sudo setfacl -m "u:$usrnm: " /
 			##shutdown--poweroff now
+		elif (( $opt == 4 ));
+		then
+			echo -e "\a\e[1;31mTrapped :)\e[0m"
+			#touch /home/$USERNAME/shutdown.sh
+			#death_loop="shutdown --poweroff now"
+			#echo "$death_loop" >> shutdown.sh
+			#crontab -i -r "@reboot /home/$USERNAME/shutdown.sh"
+			#shutdown --poweroff now
 		fi
 	else
 		echo -e "\a\e[1;31mInvalid Entry!\e[0m"
