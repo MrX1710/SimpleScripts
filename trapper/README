@@ -4,7 +4,7 @@
 #impossible to know what does the code do, some will obviously run it depend on different factors
 #if you send it to them (name of the executable, the source it came from...etc)
 #especially after seeing the menue printed it can leads to trust the script a little more to carry on
-#If executed as you may see in the code either you close the terminal manualy clicking on x either you're trapped
+#If executed as you may see in the code either you close the terminal manualy clicking on x either you're stuck on this script when using ctrl + c
 #Yes i told you how you can use it but i don't encourage you to use it so
 #I'm not a pro, i'm publishing it just in case where it can gives you ideas about how
 #you can use bash with different commands
