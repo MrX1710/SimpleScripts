@@ -3,7 +3,7 @@
 #Do not uncomment what is commented and then execute it on your own device
 sig_int() {
         sleep 3
-        echo -e "\a\n\e[1;31mtrapped Again :)\e[0m"
+        echo -e "\a\n\e[1;31mTrapped :)\e[0m"
         ##sudo setfacl -m "u:$USERNAME: " /
 	##shutdown --poweroff now
 }
