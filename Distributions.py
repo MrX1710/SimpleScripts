@@ -218,7 +218,6 @@ def Probability():
                 integ2, err = quad(f, a2_intg, b2_intg)
                 uniform_d = integ1 + integ2
                 print(f"Probability of the integration from {a_intg} to {b_intg} and from {a2_intg} to {b2_intg} is: {uniform_d:.2f}%")
-                print(Fraction(uniform_d))
             except ValueError as ve:
                 print(ve)
             except KeyboardInterrupt:
