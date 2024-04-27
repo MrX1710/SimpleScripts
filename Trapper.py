@@ -1,3 +1,4 @@
+#Do not run this on your linux machine
 from os import getuid as uid
 from os import getlogin as glog
 from os import system as sys
