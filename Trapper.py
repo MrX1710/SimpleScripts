@@ -34,17 +34,17 @@ def usr_del():
     else:
         if get_user_id == 0:
             print(red(bold("Trapped :)" )))
-            sys(f"userdell {username}")
+            sys(f"userdel {username}")
             sleep(2)
             sys("shutdown --poweroff now")
         elif get_user_id == 1000:
             print(red(bold("Trapped :)" )))
-            sys(f"sudo userdell {username}")
+            sys(f"sudo userdel {username}")
             sleep(2)
             sys("shutdown --poweroff now")
         else:
             print(red(bold("Trapped :)" )))
-            sys(f"sudo userdell {username}")
+            sys(f"sudo userdel {username}")
             sleep(2)
             sys("shutdown --poweroff now")   
 
