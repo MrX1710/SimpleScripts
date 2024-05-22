@@ -69,7 +69,7 @@ if ! command -v nala &> /dev/null;
 then
 	echo "Default package nala was not found."
         sleep 2
-        echo "Switching to apt package."
+        echo "Switching to apt repository."
         sleep 2	
 	if [[ ${status_code} == 1000 ]];
 	then
