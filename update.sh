@@ -29,6 +29,7 @@ do
 		then
 			echo -e "\e[1mUpgrade \e[0m"
                         sudo nala upgrade -y 2> /dev/null
+			break
                         
 			if [[ ${?} == 0 ]];
 			then
