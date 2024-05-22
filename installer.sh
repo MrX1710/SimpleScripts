@@ -73,7 +73,7 @@ then
         sleep 2	
 	if [[ ${status_code} == 1000 ]];
 	then
-		sudo apt install ${package} -y
+		sudo apt install ${package} -y 2> /Dev/null
 		if [[ ${?} == 0 ]];
 		then
 			exit 0
@@ -81,7 +81,7 @@ then
 			exit 1
 		fi
 	else
-		apt install ${package}      -y
+		apt install ${package}      -y 2>/dev/null
 		if [[ ${?} == 0 ]];
 		then
 			exit 0
