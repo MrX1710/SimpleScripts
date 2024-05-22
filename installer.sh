@@ -19,7 +19,7 @@ to install the package, and also if you have nala
 already because it's the default package that will
 be used for the installation, if not then the script will
 use apt as the default package, feel free to modify
-the script if you want. LONG LIFE FOR OPEN SOURCE CODE!!
+the script if you want.
 "
 }
 
