@@ -54,6 +54,8 @@ def get_servers_name(target):
                 print("IP NOT FOUND!")
     except dns.resolver.NoAnswer:
         print("No DNS response")
+    except dns.resolver.NXDOMAIN:
+        print("DNS query name does not exist")
     
 def get_mx_records(target):
     #Getting mail exchanges records of the target
@@ -67,21 +69,27 @@ def get_mx_records(target):
         print("No DNS response")
     except dns.resolver.LifetimeTimeout:
         print("Resolution lifetime expired")
+    except dns.resolver.NXDOMAIN:
+        print("DNS query name does not exist")
+    
 
 def get_whois_records(target):
     #Getting whois records of the target
     #print("\n[WHOIS RECORDS]:")
-    print(bold(green("\n[WHOIS RECORDS]")))
-    domain = whois.query(target)
-    creation_date = domain.creation_date
-    expiration_date = domain.expiration_date
-    last_updated = domain.last_updated
-    registrar = domain.registrar
+    try:
+        print(bold(green("\n[WHOIS RECORDS]")))
+        domain = whois.query(target)
+        creation_date = domain.creation_date
+        expiration_date = domain.expiration_date
+        last_updated = domain.last_updated
+        registrar = domain.registrar
 
-    print(f"Creation date  : {creation_date}   ")
-    print(f"Expiration date: {expiration_date} ")
-    print(f"Last updated   : {last_updated}    ") 
-    print(f"Registrar      : {registrar}       ")
+        print(f"Creation date  : {creation_date}   ")
+        print(f"Expiration date: {expiration_date} ")
+        print(f"Last updated   : {last_updated}    ") 
+        print(f"Registrar      : {registrar}       ")
+    except Exception:
+        print("None")
 
 def get_target_status(target):
     #Getting the status of the target (up or down)
