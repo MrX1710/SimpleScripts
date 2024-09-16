@@ -21,6 +21,12 @@ command_check() {
 		echo "Exiting with status code [1]"
 		exit 1
 	fi
+        if ! command -v ip route &> /dev/null;
+	then
+                echo "ip route command not installed"
+		echo "Exiting with status code [1]"
+                exit 1
+	fi
 }
 network_check
 command_check
