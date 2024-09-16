@@ -5,7 +5,7 @@ from scipy.integrate import quad
 import scipy.stats as stats
 import sys
 import subprocess
-def nve(): # (nve: negative_values_error)in case tha values given were negatives, which should not be so in probability.
+def nve(): # (nve: negative_values_error)
     print("Please enter only positive numbers!")
 
 def Probability():
