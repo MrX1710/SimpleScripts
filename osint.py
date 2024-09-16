@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#Osint script on domains
+#Simple osint script on domains
 
 import subprocess
 import socket
