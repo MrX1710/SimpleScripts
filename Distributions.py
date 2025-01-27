@@ -56,7 +56,7 @@ def Probability():
                     print("n is greater than 30")
                     print("Using the poisson and binomial relation:")
                     λ = n * p
-                    pbr = (exp(-λ)/factorial(x)) * pow(λ, x)
+                    pbr = (exp(-λ)/factorial(x)) * pow(λ, x) #pbr stands for poisson,binomial,relation
                     print(f"Probability: {pbr * 100:.2f}%")
                 else:
                     binomial_d = comb(n,x) * pow(p, x) * pow(q, n-x)
@@ -153,7 +153,7 @@ def Probability():
                     #when your z_score is negative like: P(Z<-2) or even if positive but will require to substract 1 like P(Z>z)
                     #I inserted an else option as e in case the result is not negative or even if it was not but requires substratting 1 like i said
                     #Because we need to get the probability of a z_score in case it is just positive which means
-                    #just P(Z<z) assuming that it's results is a positive one.
+                    #just P(Z<z) assuming that it's results is a positive one, i hope this is clear.
                     if z_table == "p":
                         if Z < 0:
                             positive_table_value2 = 1 - positive_table_value
