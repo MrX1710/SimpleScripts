@@ -71,9 +71,9 @@ then
         sleep 2
         echo "Switching to apt repository."
         sleep 2	
-	if [[ ${status_code} == 1000 ]];
+	if [[ ${status_code} == 0 ]];
 	then
-		sudo apt install ${package} -y 2> /Dev/null
+		apt install ${package} -y 2> /Dev/null
 		if [[ ${?} == 0 ]];
 		then
 			exit 0
@@ -81,7 +81,7 @@ then
 			exit 1
 		fi
 	else
-		apt install ${package}      -y 2>/dev/null
+		sudo apt install ${package}      -y 2>/dev/null
 		if [[ ${?} == 0 ]];
 		then
 			exit 0
