@@ -17,7 +17,7 @@ trap keyboard_interruption SIGINT
 #I'm gonna set up a list of rules that i think are necessary
 #then i'm gonna set INPUT policy as DROP
 #i'm gonna comment the function in the code so if you want to set
-#theses rules just uncomment it, and it'll run only one time.
+#theses rules just uncomment it, it'll run only one time.
 
 default_rules() {
 	iptables -I INPUT 1 -i lo -j ACCEPT
@@ -74,7 +74,7 @@ EOF
 
 if [[ ${ID} == 0 ]];
 then
-        #default_rules
+
 	read -p "Make your choice: " choice
 	case ${choice} in
 		1)
@@ -102,50 +102,53 @@ then
 			read -p "Enter the target rule: " tr
 			if [[ ${AI^^} == "A" ]];
 			then
-				iptables -A ${chain^^} -p ${port} --dport ${dport} -j ${tr^^}
+				iptables -A ${chain^^} -p ${port,,} --dport ${dport} -j ${tr^^}
 			elif [[ ${AI^^} == "I" ]];
 			then
 				read -p "Enter the rule's position: " rp
-				iptables -I ${chain^^} ${rp} -p ${port} --dport ${dport} -j ${tr^^}
+				iptables -I ${chain^^} ${rp} -p ${port,,} --dport ${dport} -j ${tr^^}
 			else
 				exit 1
 			fi
 			;;
 		5 | 6)
-			APPEND_INSERT
-			read -p "Do you want to add a destination?[Y/N]: " yn
-			read -p "Enter the chain name: " chain
-			read -p "Enter the ip source: " ip
-			read -p "Enter the target rule: " tr
+                                APPEND_INSERT
+                                read -p "Do you want to add a destination?[Y/N]: " yn
+                                read -p "Enter the chain name: " chain
+                                read -p "Enter the ip source: " ip
+                                read -p "Enter the target rule: " tr
 
-			if [[ ${AI^^} == "A" ]];
+			if (( ${choice} == 5 ));
 			then
-				if [[ ${yn^^} == "Y" ]];
+				if [[ ${AI^^} == "A" ]];
+			        then
+					if [[ ${yn^^} == "Y" ]];
+				        then
+						read -p "Enter the destination: " d
+					        iptables -A ${chain^^} -s ${ip} -d ${d} -j ${tr^^} 
+				        elif [[ ${yn^^} == "N" ]];
+				        then
+					        iptables -A ${chain^^} -s ${ip} -j ${tr^^}
+					else
+						exit 1
+					fi
+
+				elif [[ ${AI^^} == "I" ]];
 				then
-					read -p "Enter the destination: " d
-					iptables -A ${chain^^} -s ${ip} -d ${d} -j ${tr^^} 
-				elif [[ ${yn^^} == "N" ]];
-				then
-					iptables -A ${chain^^} -s ${ip} -j ${tr^^}
+					read -p "Enter the rule's position: " rp
+					if [[ ${yn^^} == "Y" ]];
+					then
+						read -p "Enter the destination: " d
+                                                iptables -I ${chain^^} ${rp} -s ${ip} -d ${d} -j ${tr^^}
+                                        elif [[ ${yn^^} == "N" ]];
+                                        then
+						iptables -I ${chain^^} ${rp} -s ${ip} -j ${tr^^}
+                                        else
+						exit 1
+					fi
 				else
 					exit 1
 				fi
-
-			elif [[ ${AI^^} == "I" ]];
-			then
-				read -p "Enter the rule's position: " rp
-                                if [[ ${yn^^} == "Y" ]];
-                                then
-                                        read -p "Enter the destination: " d
-                                        iptables -I ${chain^^} ${rp} -s ${ip} -d ${d} -j ${tr^^}
-                                elif [[ ${yn^^} == "N" ]];
-                                then
-                                        iptables -I ${chain^^} ${rp} -s ${ip} -j ${tr^^}
-                                else
-                                        exit 1
-                                fi
-			else
-				exit 1
 			fi
 
 			if (( ${choice} == 6 ));
@@ -157,10 +160,10 @@ then
 					if [[ ${yn^^} == "Y" ]];
                                         then
 						read -p "Enter the destination: " d
-                                                iptables -A ${chain^^} -s ${ip} -p ${port} -d ${d} --dport ${dport} -j ${tr^^}
+                                                iptables -A ${chain^^} -s ${ip} -p ${port,,} -d ${d} --dport ${dport} -j ${tr^^}
                                         elif [[ ${yn^^} == "N" ]];
                                         then
-					        iptables -A ${chain^^} -s ${ip} -p ${port} -d ${d} --dport ${dport} -j ${tr^^}
+					        iptables -A ${chain^^} -s ${ip} -p ${port,,} --dport ${dport} -j ${tr^^}
                                         else
 						exit 1
 		
@@ -171,10 +174,10 @@ then
 					then
 						read -p "Enter the destination: " d
 					        read -p "Enter the rule's position: " rp
-                                                iptables -I ${chain^^} ${rp} -s ${ip} -p ${port} -d ${d} --dport ${dport} -j ${tr^^}
+                                                iptables -I ${chain^^} ${rp} -s ${ip} -p ${port,,} -d ${d} --dport ${dport} -j ${tr^^}
                                         elif [[ ${yn^^} == "N" ]];
 					then
-                                                iptables -I ${chain^^} ${rp} -s ${ip} -p ${port} --dport ${dport} -j ${tr^^}
+                                                iptables -I ${chain^^} ${rp} -s ${ip} -p ${port,,} --dport ${dport} -j ${tr^^}
 					else
 						exit 1
 					fi
