@@ -1,158 +1,209 @@
 #!/bin/bash
-## VARIABLES ##
+#A simple script that will manage filter table of iptables
+#Maybe you don't know but iptables have 5 different tables
+#Each one manages specefics rules
+#This one is as i said for the filer table only
+
+##Variables
+##
 ID=${UID}
 STATUS=${?}
-FLAG_FILE=/home/${USER}/flag_file
+FLAG_FILE=/home/${USER}/flag_file.txt
 ##
 
- ########################################
- # IPTABLE SCRIPT FOR FILTER TABLE ONLY #
- ########################################
+keyboard_interruption() {
+	echo -e "\n\e[1mProgram interrupted\e[0m"
+	exit 1
+}
+trap keyboard_interruption SIGINT
 
-#I'm gonna add these rules because i guess anyone will need them
-#They have to be added first before setting
-#INPUT chain policy as DROP
-#else you'll block connexion for some components or let's say your browser or something else
+#I'm gonna set up a list of rules that i think are necessary
+#then i'm gonna set INPUT policy as DROP
+#i'm gonna comment the function in the code so if you want to set
+#theses rules just uncomment it, and it'll run only one time.
 
 default_rules() {
 	iptables -I INPUT 1 -i lo -j ACCEPT
 	iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-        iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-        iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT
-        iptables -A INPUT -p tcp --dport 443 -j ACCEPT
-        iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT
-        sleep 2
+	iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+	iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+	iptables -A INPUT -p tcp --dport 23 -j DROP
+	iptables -A INPUT -p tcp --dport 445 -j DROP
+	iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT
+	iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT
+	iptables -A OUTPUT -p tcp --dport 23 -j DROP
+	iptables -A OUTPUT -p tcp --dport 445 -j DROP
 
-        if ! [[ -f ${FLAG_FILE}  ]]; then #ensuring that this function runs one time only after first exec
+	#If you don't use ssh i recommand you to uncomment theses ones
+	# iptables -A INPUT -p tcp --dport 22 -j DROP
+	# iptables -A OUTPUT -p tcp --dport 22 -j DROP
+
+	if [[ ! -f ${FLAG_FILE} ]];
+	then
 		touch ${FLAG_FILE}
-		echo "Hey, this file was created when you used the script, don't delete it or it'll execute the def rules function again" > ${FLAG_FILE}
-	        iptables -P INPUT DROP
-        else
+		echo "This is the flag file from iptables script, don't remove it" > ${FLAG_FILE}
+		iptables -P INPUT DROP
+	else
+		exit 0
+	fi
+}
+
+CHECK() {
+	if [[ ${ID} != 0 ]];
+	then
+		echo -e "\e[1;31mYou are not allowed to run this script!"
 		exit 1
 	fi
 }
 
-STATUS_RULE_CHECK() {
-	if [[ ${STATUS} -eq 0 ]];
-	then
-		echo "rule successfully added!"
-        else
-		echo "An error occured"
-	fi
+APPEND_INSERT() {
+	read -p "Do you want to append or insert a rule?[A/I]: " AI
 }
 
-APPEND_INSERT_ASK() {
-	read -p "Do you want to append or insert a rule?: " AIR
-}
+CHECK
 
 cat << EOF
     1) List iptables rules
     2) Flush iptables rules
     3) Delete iptables rules
-    4) Append/Insert a rule using port and dport
-    5) Append/Insert a rule using a source (IP ADDR)
-    6) Append/Insert a rule using a source ( adding port and dport)
-    7) Creating a custom chain
-    8) Delete a custom chain    
+    4) Append/Insert rules using port and dport (-p --dport)
+    5) Append/Insert rules using source and destination source (-s -d)
+    6) Append/Insert rules using source, d with port and dport
+    7) Create a custom chain
+    8) Rename a custom chain
+    9) Delete a custom chain
+   10) Set policy for a chain
 EOF
 
-if [[ ${ID} -eq 0 ]];
+if [[ ${ID} == 0 ]];
 then
-	#default_rules
-	echo "\nRoot user detected"
+        #default_rules
 	read -p "Make your choice: " choice
 	case ${choice} in
 		1)
-			iptables -L
+			iptables -L -v
 			;;
 		2)
 			iptables -F
-			echo "Rules flushed"
-			iptables -L
+			if (( ${STATUS} == 0 ));
+			then
+				echo "Rules flusehd"
+				exit 0
+			fi
 			;;
 		3)
 			iptables -L --line-numbers
-			read -p "Enter the chain name: " chain 
-			read -p "Choose the rule to delete: " dlr
-			iptables -D ${chain} ${dlr}
+			read -p "Enter the chain name: " chain
+			read -p "Enter the rule's number to delete: " rn
+			iptables -D ${chain^^} ${rn} 2>/dev/null
 			;;
 		4)
-			read -p "Enter the port: " port
-		        read -p "Enter the dport (destination port): " dport
+			APPEND_INSERT
 			read -p "Enter the chain name: " chain
+			read -p "Enter the port name: " port
+			read -p "Enter the destination port number: " dport
 			read -p "Enter the target rule: " tr
-                        while [ true  ]
-                        do
-				APPEND_INSERT_ASK
-			        if [[ ${AIR} == "A" ]];
-				then
-					iptables -A ${chain} -p ${port} --dport ${dport} -j ${tr}
-					break
-			        elif [[ ${AIR} == "I" ]];
-			        then
-					read -p "Enter the rule's position: " rp
-			          	iptables -I ${chain} ${rp} -p ${port} --dport ${dport} -j ${tr}
-					break
-				else
-					sleep 2
-					continue
-				fi
-			done
-				
-		        ;;
-		5)
-			APPEND_INSERT_ASK
-			read -p "Do you want to allow the source in a specified port or no?[Y/N]: " yn
-
-			while [ true ]
-			do
-                                        read -p "Enter the chain name: " chain
-                                        read -p "Enter the source ip: " ip
-					read -p "Enter the target rule: " tr
-				if [[ ${AIR} == "A" && ${yn} == "Y" ]];
-				then
-					read -p "Enter the source port: " sport
-					iptables -A ${chain} -s ${ip} --sport ${sport} -j ${tr}
-					break
-
-				elif [[ ${AIR} == "A" && ${yn} == "N" ]];
-				then
-					iptables -A ${chain} -s ${ip} -j ${tr}
-					break
-
-				elif [[ ${AIR} == "I" && ${yn} == "Y" ]];
-				then
-					read -p "Enter the rule's position: " rp 
-                                        read -p "Enter the source port: " sport
-                                        iptables -I ${chain} ${rp} -s ${ip} --sport ${sport} -j ${tr}
-					break
-
-				elif [[ ${AIR} == "I" && ${yn} == "N" ]];
-					read -p "Enter the rule's position: " rp
-                                        iptables -I ${chain} ${rp} -s ${ip} -j ${tr}
-					break
-				else
-					sleep 2
-					continue
-				fi
-			done	
+			if [[ ${AI^^} == "A" ]];
+			then
+				iptables -A ${chain^^} -p ${port} --dport ${dport} -j ${tr^^}
+			elif [[ ${AI^^} == "I" ]];
+			then
+				read -p "Enter the rule's position: " rp
+				iptables -I ${chain^^} ${rp} -p ${port} --dport ${dport} -j ${tr^^}
+			else
+				exit 1
+			fi
 			;;
-		6)
+		5 | 6)
+			APPEND_INSERT
+			read -p "Do you want to add a destination?[Y/N]: " yn
+			read -p "Enter the chain name: " chain
+			read -p "Enter the ip source: " ip
+			read -p "Enter the target rule: " tr
+
+			if [[ ${AI^^} == "A" ]];
+			then
+				if [[ ${yn^^} == "Y" ]];
+				then
+					read -p "Enter the destination: " d
+					iptables -A ${chain^^} -s ${ip} -d ${d} -j ${tr^^} 
+				elif [[ ${yn^^} == "N" ]];
+				then
+					iptables -A ${chain^^} -s ${ip} -j ${tr^^}
+				else
+					exit 1
+				fi
+
+			elif [[ ${AI^^} == "I" ]];
+			then
+				read -p "Enter the rule's position: " rp
+                                if [[ ${yn^^} == "Y" ]];
+                                then
+                                        read -p "Enter the destination: " d
+                                        iptables -I ${chain^^} ${rp} -s ${ip} -d ${d} -j ${tr^^}
+                                elif [[ ${yn^^} == "N" ]];
+                                then
+                                        iptables -I ${chain^^} ${rp} -s ${ip} -j ${tr^^}
+                                else
+                                        exit 1
+                                fi
+			else
+				exit 1
+			fi
+
+			if (( ${choice} == 6 ));
+			then
+				read -p "Enter the port name: " port
+				read -p "Enter the destination port: " dport
+				if [[ ${AI^^} == "A" ]];
+                                then
+					if [[ ${yn^^} == "Y" ]];
+                                        then
+						read -p "Enter the destination: " d
+                                                iptables -A ${chain^^} -s ${ip} -p ${port} -d ${d} --dport ${dport} -j ${tr^^}
+                                        elif [[ ${yn^^} == "N" ]];
+                                        then
+					        iptables -A ${chain^^} -s ${ip} -p ${port} -d ${d} --dport ${dport} -j ${tr^^}
+                                        else
+						exit 1
+		
+					fi
+				elif [[ ${AI^^} == "I" ]];
+                                then
+					if [[ ${yn^^} == "Y" ]];
+					then
+						read -p "Enter the destination: " d
+					        read -p "Enter the rule's position: " rp
+                                                iptables -I ${chain^^} ${rp} -s ${ip} -p ${port} -d ${d} --dport ${dport} -j ${tr^^}
+                                        elif [[ ${yn^^} == "N" ]];
+					then
+                                                iptables -I ${chain^^} ${rp} -s ${ip} -p ${port} --dport ${dport} -j ${tr^^}
+					else
+						exit 1
+					fi
+				fi
+			fi
 			;;
 		7)
-			read -p "Enter the name of the chain you want to create: " ccchain
-			iptables -N ${ccchain}
+			read -p "Enter the custom chain's name: " cchain
+			iptables -N ${cchain^^}
 			;;
 		8)
-			read -p "Enter the name of the custom chain you want to delete: " dcchain
-			iptables -X ${dcchain}
-			;;	
-
+			read -p "Enter the old chain's name: " ochain
+			read -p "Enter the new chain's name: " nchain
+			iptables --rename-chain ${ochain^^} ${nchain^^}
+			;;
+		9)
+			read -p "Enter the custom chain's name you want to delete: " dcchain
+			iptales -X ${dcchain^^}
+			;;
+		10)
+			read -p "Enter the chain's name: " chain
+			read -p "Enter the desired chain's policy: " policy
+			iptables -P ${chain^^} ${policy^^}
+			;;
 		*)
-			echo "please enter only one of the 8 options above!"
+			echo "Option not available"
+			exit 1
 	esac
-
-else
-	echo "\nRoot user not detected!"
-	exit 1
 fi
