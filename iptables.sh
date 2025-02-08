@@ -1,8 +1,6 @@
 #!/bin/bash
 #A simple script that will manage filter table of iptables
-#Maybe you don't know but iptables have 5 different tables
-#Each one manages specefics rules
-#This one is as i said for the filer table only
+
 
 ##Variables
 ##
