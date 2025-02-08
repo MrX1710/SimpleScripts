@@ -1,7 +1,6 @@
 #!/bin/bash
 #A simple script that will manage filter table of iptables
 
-
 ##Variables
 ##
 ID=${UID}
