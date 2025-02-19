@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 #Simple osint script on domains
+#With the contribution of a teleg user Neo(Better code structure)
 
 import subprocess
 import socket
