@@ -1,6 +1,5 @@
-#update script using nala in python
-
 #!/usr/bin/env python3
+#update script using nala in python
 
 import subprocess
 import time
