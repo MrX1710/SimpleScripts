@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#A simple script that will manage filter table of iptables
+#A simple easy to use script that will manage filter table of iptables
 
 ##VARIABLES
 ID=${UID}
