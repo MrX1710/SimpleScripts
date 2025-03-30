@@ -44,9 +44,9 @@ then
 	exit 0
 
 else
-	if [[ ${status_code} == 1000 ]];
+	if [[ ${status_code} == 0 ]];
 	then
-		sudo nala install ${package} -y 2> /dev/null
+		nala install ${package} -y 2> /dev/null
 	        if [[ ${?} == 0 ]];
                 then
                         exit 0
@@ -55,7 +55,7 @@ else
                 fi
 
 	else
-		nala install ${package}      -y 2> /dev/null
+		sudo nala install ${package}      -y 2> /dev/null
                 if [[ ${?} == 0 ]];
                 then
                         exit 0
