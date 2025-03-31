@@ -10,7 +10,7 @@ IS_ROOT(){
     if [[ "${ID}" != 0 ]];
     then
         echo -e "${RED}Permission denied${NC}"
-        exit 4
+        exit 1
     fi
 }
 
