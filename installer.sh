@@ -1,11 +1,14 @@
-#!/bin/bash 
+#!/bin/bash
 
+#
 package=${1}
-status_code=${UID}
+ID=${UID}
+STATUS=${?}
+#
 
 help() {
 	echo "installer -i or --info for info about the script"
-	echo "installer [package_name]"
+	echo "installer [package_name] to install a package"
 }
 
 info() {
@@ -17,76 +20,85 @@ installation if you are a lazy command person.
 The script will detect if you need sudo or not
 to install the package, and also if you have nala
 already because it's the default package that will
-be used for the installation, if not then the script will
-use apt as the default package.
+be used for the installation, if not the script will
+use apt as the default package, feel free to modify
+the script if you want. LONG LIFE FOR OPEN SOURCE CODE!!
 "
 }
+
+net_check() {
+	if ! ping -c 3 -W 1 ubuntu.com &>/dev/null;
+	then
+		echo "Network error!"
+		exit 1
+	fi
+}
+
+case ${1} in
+	-h | --help)
+		help
+		exit 0
+		;;
+	-i)
+		info
+		exit 0
+
+esac
 
 if [[ -z ${package} ]];
 then
 	echo "Invalid entry, you must provide a package name!"
 	echo "Try: installer -h or --help"
 	exit 1
-elif [[ ${#} > 1 ]];
+elif [[ ${#} -gt 1 ]];
 then
 	echo "You can provide only one argument."
 	echo "You provided ${#} arguments."
 	exit 1
 
-elif [[ ${1} == "-h" || ${1} == "--help" ]];
-then
-        help
-	exit 0
-
-elif [[ ${1} == "-i" || ${1} == "--info" ]];
-then
-        info
-	exit 0
-
 else
-	if [[ ${status_code} == 0 ]];
+	net_check
+	if ! command -V nala &>/dev/null;
 	then
-		nala install ${package} -y 2> /dev/null
-	        if [[ ${?} == 0 ]];
-                then
-                        exit 0
-                else
-                        exit 1
-                fi
-
-	else
-		sudo nala install ${package}      -y 2> /dev/null
-                if [[ ${?} == 0 ]];
-                then
-                        exit 0
-                else
-                        exit 1
-                fi
-	fi
-fi
-
-if ! command -v nala &> /dev/null;
-then
-	echo "Default package nala was not found."
-        sleep 2
-        echo "Switching to apt repository."
-        sleep 2	
-	if [[ ${status_code} == 0 ]];
-	then
-		apt install ${package} -y 2> /Dev/null
-		if [[ ${?} == 0 ]];
+        	echo "Switching to apt package."
+        	sleep 2	
+		if [[ ${ID} == 1000 ]];
 		then
-			exit 0
+			sudo apt-get install "${package}" -y
+			if [[ ${STATUS} == 0 ]];
+			then
+				exit 0
+			else
+				exit 1
+			fi
 		else
-			exit 1
+			apt-get install "${package}"      -y
+			if [[ ${STATUS} == 0 ]];
+			then
+				exit 0
+			else
+				exit 1
+			fi
 		fi
 	else
-		sudo apt install ${package}      -y 2>/dev/null
-		if [[ ${?} == 0 ]];
+		if [[ ${ID} == 1000 ]];
 		then
-			exit 0
+			sudo nala install "${package}" -y 2> /dev/null
+	        	if [[ ${STATUS} == 0 ]];
+                	then
+                	        exit 0
+                	else
+                	        exit 1
+                	fi
+
 		else
-			exit 1
+			nala install "${package}" -y 2> /dev/null
+                	if [[ ${STATUS} == 0 ]];
+                	then
+                        	exit 0
+               	 	else
+                        	exit 1
+                	fi
 		fi
 	fi
 fi
