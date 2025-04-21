@@ -12,7 +12,7 @@ then
 	echo "Enter the file name only, without it's extension"
 	exit 1
 else
-	gcc "${FILE}.c" -o "${FILE}" 2>/dev/null
+	gcc "${FILE}.c" -o "${FILE}"
 	exit 0
 fi
 

@@ -11,6 +11,6 @@ then
 	echo "file.c or .cpp(++) only"
         exit 1
 else
-	gcc "${FILE}" -o "${FILE%.*}" 2>/dev/null
+	gcc "${FILE}" -o "${FILE%.*}"
 	exit 0
 fi
