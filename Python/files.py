@@ -2,7 +2,7 @@ import re
 from sys import exit
 try:
     print("Hello user")
-    FILENAME = input("Name your new file's name: ")
+    FILENAME = input("Name your new file: ")
     FILE_TYPE = input("Enter the file type: ")
 
     while not re.match(r'^\.[\w]+$', FILE_TYPE):
