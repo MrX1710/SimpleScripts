@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 #I got lazy verifying hash's manually so i just wrote this basic code
+#update: i know, no one verifies hash's manually, ignorant i was
 #Why python? randomly
 #3c98a016aa4f14a3ba185c764ed363415cf7ff3c3d328a87ffff2ff1b140ff06
 
