@@ -14,7 +14,7 @@ invalid_input() {
 
 KEYB_INT() {
 	echo -e "\n\e[1mKeyboard Interruption\e[0m"
-	exit 0
+	exit 130
 }
 trap KEYB_INT SIGINT
 echo "<user>     <PID>   <PPID>"

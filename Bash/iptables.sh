@@ -16,7 +16,7 @@ NC='\033[0m'
 
 keyboard_interruption() {
 	echo -e "\n${BOLD}${GREEN}Keyboard Interruption${NC}"
-	exit 0
+	exit 130
 }
 trap keyboard_interruption SIGINT
 
