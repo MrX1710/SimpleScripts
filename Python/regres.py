@@ -9,7 +9,7 @@ sum_residuals = 0
 sum_squared_residuals = 0
 SSR = 0
 
-#This is just a sample list used to be sure of the result's accuracy
+
 #do not uncomment unless you already commented the lists bellow
 # list_x = [1400,1600,1700,1875,1100,1550,2350,2450,1425,1700] #m²
 # list_y = [245,312,279,308,199,219,405,324,319,255] #thousands of dollars
@@ -27,6 +27,7 @@ list_ys = [] # values of (y-moyenne_y)²
 
 
 #This part gives the user the freedom of choosing the input data of his choice instead of the ones that are declared above
+#make sure to comment the data above in order to use this part so that no conflict between declared data and input data happens
 while True:
     try:
         x = float(input("Enter x value >> "))
