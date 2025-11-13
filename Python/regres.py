@@ -102,8 +102,8 @@ try:
     print(b("\nsum of squared estimated errors"))
 
     for k in range(len(list_x)):
-        residuals = list_y[k] - (alpha + (beta*list_x[k]))
-        sum_squared_residuals += residuals**2 #SSE
+        residuals = (list_y[k] - (alpha + (beta*list_x[k])))**2
+        sum_squared_residuals += residuals #SSE
         print(f"{k+1} >> ({list_y[k]} - ({alpha} + ({beta} * {list_x[k]})))**2 = {residuals}")
     print(b(f"∑(ei)²: {sum_squared_residuals}"))
 except:
