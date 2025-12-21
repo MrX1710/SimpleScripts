@@ -32,7 +32,7 @@ case "${Z,,}" in
 		then
 			invalid_input
 		else
-			kill "$ppid"
+			kill -9 "$ppid"
 			ps -ef | grep defunct
 		fi
 		;;
