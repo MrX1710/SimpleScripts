@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 import matplotlib.pyplot as plt
 from colors import bold, green
-IceCream = pd.read_csv('IceCreamData.csv')
+IceCream = pd.read_csv('Python/ML/IceCreamData.csv')
 print(bold(green("DATASET:")))
 print(IceCream)
 print(bold(green("\nDescribing the dataset:")))
@@ -37,15 +37,17 @@ y_pred_train = model.predict(x_train)
 #train data
 print(bold(green("\nPearson r:")))
 print(f"r(train): {np.sqrt(model.score(x_train, y_train))}")
-print(bold(green("\nCoefficient of determination:")))
+print(bold(green("Coefficient of determination:")))
 print(f"R²(train): {model.score(x_train, y_train)}")
+print(bold(green("MAE & RMSE(train):")))
 print("MAE(train):", mean_absolute_error(y_train, y_pred_train))
 print("RMSE(train):", np.sqrt(mean_squared_error(y_train, y_pred_train)))
 # Test data
 print(bold(green("\nPearson r:")))
 print(f"r(test): {np.sqrt(model.score(x_test, y_test))}")
-print(bold(green("\nCoefficient of determination:")))
+print(bold(green("Coefficient of determination:")))
 print(f"R²(test): {model.score(x_test, y_test)}")
+print(bold(green("MAE & RMSE(test):")))
 print("MAE(test):", mean_absolute_error(y_test, y_pred_test))
 print("RMSE(test):", np.sqrt(mean_squared_error(y_test, y_pred_test)))
 print(bold(green("\nPredictions(y_pred)")))
