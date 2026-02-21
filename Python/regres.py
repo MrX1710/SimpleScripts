@@ -11,15 +11,15 @@ SSR = 0
 
 
 #do not uncomment unless you already commented the lists bellow
-# list_x = [1400,1600,1700,1875,1100,1550,2350,2450,1425,1700] #m²
-# list_y = [245,312,279,308,199,219,405,324,319,255] #thousands of dollars
+list_x = [1400,1600,1700,1875,1100,1550,2350,2450,1425,1700] #m²
+list_y = [245,312,279,308,199,219,405,324,319,255] #thousands of dollars
 
 # The list in question:
 # list_x = [1.02, 2.08, 2.89, 4.04, 5.32, 5.83, 7.26, 7.96, 9.11, 9.99] #values of x
 # list_y = [1.15, 0.85, 1.56, 1.72, 4.32, 5.07, 5.00, 5.31, 6.17, 7.04] #values of y
 
-list_x = []
-list_y = []
+# list_x = []
+# list_y = []
 list__x = [] #values of (x-moyenne_x)
 list__y = [] #values of (y-moyenne_y)
 list_xs = [] # values of (x-moyenne_x)²
@@ -28,19 +28,19 @@ list_ys = [] # values of (y-moyenne_y)²
 
 #This part gives the user the freedom of choosing the input data of his choice instead of the ones that are declared above
 #make sure to comment the data above in order to use this part so that no conflict between declared data and input data happens
-while True:
-    try:
-        x = float(input("Enter x value >> "))
-        list_x.append(x)
-    except KeyboardInterrupt:
-        print("\n")
-        try:
-            while True:
-                y = float(input("Enter y value >> "))
-                list_y.append(y)
-        except KeyboardInterrupt:
-            pass
-        break
+# while True:
+#     try:
+#         x = float(input("Enter x value >> "))
+#         list_x.append(x)
+#     except KeyboardInterrupt:
+#         print("\n")
+#         try:
+#             while True:
+#                 y = float(input("Enter y value >> "))
+#                 list_y.append(y)
+#         except KeyboardInterrupt:
+#             pass
+#         break
 
 mean_x = sum(list_x)  / len(list_x) #sum(xi)/n
 mean_y = sum(list_y) / len(list_y) #sum(yi)/n

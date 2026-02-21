@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 import numpy as np
 
-X = np.array([1.02, 2.08, 2.89, 4.04, 5.32, 5.83, 7.26, 7.96, 9.11, 9.99])
-Y = np.array([1.15, 0.85, 1.56, 1.72, 4.32, 5.07, 5.00, 5.31, 6.17, 7.04])
+# X = np.array([1.02, 2.08, 2.89, 4.04, 5.32, 5.83, 7.26, 7.96, 9.11, 9.99])
+# Y = np.array([1.15, 0.85, 1.56, 1.72, 4.32, 5.07, 5.00, 5.31, 6.17, 7.04])
+X = np.array([16, 18, 23, 24, 28, 29, 26, 31, 32, 34])
+Y = np.array([20, 24, 28, 22, 32, 28, 32, 36, 41, 41])
 p = 1
 k = 2
 n = 10
@@ -39,3 +41,5 @@ print(f"Sum squared total > {SST}")
 print(f"R² > {R_squared}")
 print(f"R²_ > {R_squared_adjusted}")
 print(f"Estimated F > {estimated_F}")
+print(np.var(X))
+print(np.cov(Y))
