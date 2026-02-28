@@ -20,10 +20,7 @@ if ((results["E_Ri", "C"] > results["E_Ri", best_asset] &
 }
 cat("\nBest asset based on a risky-taking investor behaviour is: ", best_asset)
 
-cov_a_b <- cov(A,B)
 w = rep(1/3, 3)
-
-cat("\n\nCov(A,B): ", cov_a_b)
 cat("\nWeights: ",w)
 Returns <- as.matrix(data)
 covariance_matrix <- matrix(0, ncol = 3, nrow = 3)
