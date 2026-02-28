@@ -28,6 +28,7 @@ cat("\nWeights: ",w)
 Returns <- as.matrix(data)
 covariance_matrix <- matrix(0, ncol = 3, nrow = 3)
 colnames(covariance_matrix) <- rownames(covariance_matrix) <- colnames(data)
+sd_vector <- results['Volatility',]
 
 for (i in 1:3) {
   for (j in 1:3) {
@@ -38,7 +39,7 @@ for (i in 1:3) {
 
 portfolio_return <- sum(w*results["E_Ri",])
 portfolio_covariance <- covariance_matrix
-portfolio_correlation <- cor(data)
+portfolio_correlation <- covariance_matrix / sd_vector %o% sd_vector
 portfolio_variance <- t(w) %*% portfolio_covariance %*% w #w^T∑w
 portfolio_volatility <- sqrt(portfolio_variance)
 
