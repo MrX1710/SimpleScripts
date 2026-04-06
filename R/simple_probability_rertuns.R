@@ -64,3 +64,4 @@ plot(results["E_Ri", ], results["Volatility", ],
      xlab = "Returns", ylab = "Volatility")
 text(results["E_Ri",], results["Volatility",],
      labels = colnames(results), pos = 2)
+
