@@ -1,3 +1,4 @@
 *.swp
 *.api_key
+**/__pycache__/
 #relax that's just a test
